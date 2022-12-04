@@ -48,6 +48,40 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         }
     }
 
+    let fuelText = '';
+    let cargoText = '';
+    let h2Color = '';
+    let h2Text = '';
+
+    if(Number(fuelLevel) < 10000) {
+        fuelText = 'fuel level too low for launch';
+    } else {
+        fuelText = 'enough fuel for launch';
+    }
+
+    if(Number(cargoLevel) >= 10000) {
+        cargoText = 'cargo is too heavy for launch';
+    } else {
+        cargoText = 'cargo is light enough for launch';
+    }
+
+    if(fuelText === 'fuel level too low for launch' || cargoText === 'cargo is too heavy for launch') {
+        document.getElementById('launchStatus').style.color = 'red';
+        document.getElementById('launchStatus').innerHTML = 'Shuttle Not Ready for Launch';
+        document.getElementById('faultyItems').style.visibility = 'visible';
+    } else {
+        document.getElementById('launchStatus').style.color = 'green';
+        document.getElementById('launchStatus').innerHTML = 'Shuttle Ready for Launch';
+        document.getElementById('faultyItems').style.visibility = 'visible';
+    }
+
+    list.innerHTML = `
+            <ol>
+                <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} is Ready for Launch</li>
+                <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} is Ready for Launch</li>
+                <li id="fuelStatus" data-testid="fuelStatus">${fuelText}</li>
+                <li id="cargoStatus" data-testid="cargoStatus">${cargoText}</li>
+            </ol>`;
 }
 
 async function myFetch() {
