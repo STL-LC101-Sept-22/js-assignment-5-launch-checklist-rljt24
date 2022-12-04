@@ -32,7 +32,6 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     for(let i=0; i<arr.length; i++){
         arrResults.push(validateInput(arr[i]));
     }
-    console.log(arrResults);
     for(let j=0; j<arrResults.length; j++){
         if(arrResults[j] === 'Empty'){
             alert("All entries must be filled out");
@@ -50,8 +49,6 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 
     let fuelText = '';
     let cargoText = '';
-    let h2Color = '';
-    let h2Text = '';
 
     if(Number(fuelLevel) < 10000) {
         fuelText = 'fuel level too low for launch';
@@ -87,13 +84,15 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 async function myFetch() {
     let planetsReturned;
 
-    planetsReturned = await fetch().then( function(response) {
-        });
-
+    planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+        response.json();
+    });
     return planetsReturned;
 }
 
 function pickPlanet(planets) {
+    let index = Math.round(Math.random()*planets.length);
+    return planets[index];
 }
 
 module.exports.addDestinationInfo = addDestinationInfo;
